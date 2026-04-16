@@ -22,3 +22,6 @@ def shop(request):
 
 def single(request):
     return render(request, 'single.html')
+
+def error_404(request):
+    return render(request, '404.html')

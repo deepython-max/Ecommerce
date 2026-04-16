@@ -9,5 +9,6 @@ urlpatterns = [
     path('contact', views.contact, name='contact'),
     path('shop', views.shop,name='shop'),
     path('single', views.single, name='single'),
+    path('404', views.error_404, name='404'),
 
 ]
