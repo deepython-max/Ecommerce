@@ -1,16 +1,26 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import Register
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
+# def index(request):
+#     if not request.session.get('user_id'):
+#         return redirect('login')
+
+#     name = request.session.get('user_name')
+
+#     return render(request, 'index.html', {'name': name})
+
+
 def index(request):
-    if not request.session.get('user_id'):
+    if request.user.is_anonymous:
         return redirect('login')
 
-    name = request.session.get('user_name')
-
+    name = request.user.username
     return render(request, 'index.html', {'name': name})
 
 def bestseller(request):
@@ -34,61 +44,122 @@ def single(request):
 def error_404(request):
     return render(request, '404.html')
 
+# def registration(request):
+#     if request.method == "POST":
+
+#         # ✅ 1. Get data from form
+#         name = request.POST.get('name')
+#         email = request.POST.get('email')
+#         mobile = request.POST.get('mobile')
+#         password = request.POST.get('password')
+
+#         # ✅ 2. ADD YOUR VALIDATION HERE 👇
+#         errors = []
+
+#         if Register.objects.filter(email=email).exists():
+#             errors.append("Email already exists ❌")
+
+#         if Register.objects.filter(name=name).exists():
+#             errors.append("Name already exists ❌")
+
+#         # ✅ 3. Check errors
+#         if errors:
+#             for error in errors:
+#                 messages.error(request, error)
+
+#         else:
+#             # ✅ 4. Save only if no errors
+#             Register.objects.create(
+#                 name=name,
+#                 email=email,
+#                 mobile=mobile,
+#                 password=password
+#             )
+#             messages.success(request, f"Welcome {name}, registration successful ✅")  #this message will show on the redirected page if there is message tag inside that page's HTML and if not then it will show on the current page (registration.html page for this)
+#             return redirect('/login')
+
+#     # ✅ 5. Always return page
+#     return render(request, "register.html")
+
+# def loginUser(request):
+#     if request.method == "POST":
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+
+#         user = Register.objects.filter(email=email).first()
+
+#         if user:
+#             if user.password == password:
+#                 request.session['user_id'] = user.id   # ✅ STORE SESSION
+#                 request.session['user_name'] = user.name
+
+#                 # request.session = {'user_id': 5,
+#                 #                    'user_name': 'Deep'
+#                 #                   }
+                
+
+#                 messages.success(request, "Login successful ✅")
+#                 return redirect('home')
+#             else:
+#                 messages.error(request, "Wrong password ❌")
+#         else:
+#             messages.error(request, "Email does not exist ❌")
+
+#     return render(request, "login.html")
+
+# def logoutUser(request):
+#     request.session.flush()   # 🔥 clears session  'request.session = {}'
+#     messages.success(request, "Logged out successfully ✅")
+#     return redirect('login')
+
 def registration(request):
     if request.method == "POST":
-
-        # ✅ 1. Get data from form
         name = request.POST.get('name')
         email = request.POST.get('email')
-        mobile = request.POST.get('mobile')
         password = request.POST.get('password')
 
-        # ✅ 2. ADD YOUR VALIDATION HERE 👇
         errors = []
 
-        if Register.objects.filter(email=email).exists():
+        if User.objects.filter(username=name).exists():
+            errors.append("Username already exists ❌")
+
+        if User.objects.filter(email=email).exists():
             errors.append("Email already exists ❌")
 
-        if Register.objects.filter(name=name).exists():
-            errors.append("Name already exists ❌")
-
-        # ✅ 3. Check errors
         if errors:
             for error in errors:
                 messages.error(request, error)
-
         else:
-            # ✅ 4. Save only if no errors
-            Register.objects.create(
-                name=name,
+            # 🔥 create user (password automatically hashed)
+            user = User.objects.create_user(
+                username=name,
                 email=email,
-                mobile=mobile,
-                password=password
+                # password=password
+                password=make_password(password)
             )
-            messages.success(request, f"Welcome {name}, registration successful ✅")
-            return redirect('/login')
+            user.save()
 
-    # ✅ 5. Always return page
+            messages.success(request, "Registration successful ✅")
+            return redirect('login')
+
     return render(request, "register.html")
 
-def login(request):
+def loginUser(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = Register.objects.filter(email=email).first()
+        # 🔥 Django uses username by default
+        user = User.objects.filter(email=email).first()
 
         if user:
-            if user.password == password:
-                request.session['user_id'] = user.id   # ✅ STORE SESSION
-                request.session['user_name'] = user.name
+            user = authenticate(request, username=user.username, password=password)
 
-                # request.session = {'user_id': 5,
-                #                    'user_name': 'Deep'
-                #                   }
-                
-
+            if user is not None:
+                login(request, user)   # ✅ session handled automatically
+                print('hello')
                 messages.success(request, "Login successful ✅")
+                print('hello123')
                 return redirect('home')
             else:
                 messages.error(request, "Wrong password ❌")
@@ -98,6 +169,8 @@ def login(request):
     return render(request, "login.html")
 
 def logoutUser(request):
-    request.session.flush()   # 🔥 clears session  'request.session = {}'
+    logout(request)   # ✅ built-in logout
     messages.success(request, "Logged out successfully ✅")
     return redirect('login')
+
+
