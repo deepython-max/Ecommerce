@@ -137,7 +137,7 @@ def registration(request):
                 # password=password
                 password=make_password(password)
             )
-            user.save()
+            
 
             messages.success(request, "Registration successful ✅")
             return redirect('login')
