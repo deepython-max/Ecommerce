@@ -168,9 +168,19 @@ def loginUser(request):
 
     return render(request, "login.html")
 
+# def logoutUser(request):
+#     logout(request)   # ✅ built-in logout
+#     messages.success(request, "Logged out successfully ✅")
+#     return redirect('login')
+
+
 def logoutUser(request):
     logout(request)   # ✅ built-in logout
     messages.success(request, "Logged out successfully ✅")
     return redirect('login')
+
+
+    
+
 
 
