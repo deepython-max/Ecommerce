@@ -7,3 +7,5 @@ from .models import *
 admin.site.register(Register)
 
 admin.site.register(Product)
+
+admin.site.register(ContactMessage)

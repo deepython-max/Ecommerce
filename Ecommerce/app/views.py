@@ -32,8 +32,29 @@ def cart(request):
 def cheackout(request):
     return render(request, 'cheackout.html')
 
+# def contact(request):
+#     return render(request, 'contact.html')
+
 def contact(request):
+    if request.method == "POST":
+
+        name = request.POST.get('name')
+
+        ContactMessage.objects.create(
+            name=name,
+            email=request.POST.get('email'),
+            phone=request.POST.get('phone'),
+            project=request.POST.get('project'),
+            subject=request.POST.get('subject'),
+            message=request.POST.get('message')
+        )
+
+        return redirect('thankyou')
+
     return render(request, 'contact.html')
+
+def thankyou(request):
+    return render(request, 'thankyou.html', {'name': ContactMessage.objects.last().name})
 
 def shop(request):
     products = Product.objects.all()
