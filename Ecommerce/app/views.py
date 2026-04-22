@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .models import Register
+from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
@@ -36,7 +36,10 @@ def contact(request):
     return render(request, 'contact.html')
 
 def shop(request):
-    return render(request, 'shop.html')
+    products = Product.objects.all()
+    context = {'products': products}
+
+    return render(request, 'shop.html', context)
 
 def single(request):
     return render(request, 'single.html')
