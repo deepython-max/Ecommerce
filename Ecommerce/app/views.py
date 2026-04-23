@@ -4,6 +4,8 @@ from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 
@@ -35,18 +37,60 @@ def cheackout(request):
 # def contact(request):
 #     return render(request, 'contact.html')
 
+# def contact(request):
+#     if request.method == "POST":
+
+#         name = request.POST.get('name')
+
+#         ContactMessage.objects.create(
+#             name=name,
+#             email=request.POST.get('email'),
+#             phone=request.POST.get('phone'),
+#             project=request.POST.get('project'),
+#             subject=request.POST.get('subject'),
+#             message=request.POST.get('message')
+#         )
+
+#         return redirect('thankyou')
+
+#     return render(request, 'contact.html')
+
 def contact(request):
     if request.method == "POST":
 
         name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        project = request.POST.get('project')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
 
+        # Save to database
         ContactMessage.objects.create(
             name=name,
-            email=request.POST.get('email'),
-            phone=request.POST.get('phone'),
-            project=request.POST.get('project'),
-            subject=request.POST.get('subject'),
-            message=request.POST.get('message')
+            email=email,
+            phone=phone,
+            project=project,
+            subject=subject,
+            message=message
+        )
+
+        # Send Thank You Mail to User
+        send_mail(
+            subject="Thank You For Contacting Us",
+            message=f"""
+Hello {name},
+
+Thank you for contacting us.
+
+We have received your message regarding "{subject}" and will get back to you soon.
+
+Regards,
+Your Website Team
+""",
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
+            fail_silently=False
         )
 
         return redirect('thankyou')
