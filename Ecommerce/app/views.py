@@ -65,8 +65,8 @@ def contact(request):
         subject = request.POST.get('subject')
         message = request.POST.get('message')
 
-        # Save to database
-        ContactMessage.objects.create(
+        # Save to database 
+        ContactMessage.objects.create( #this will save the data to the database
             name=name,
             email=email,
             phone=phone,
@@ -79,19 +79,19 @@ def contact(request):
         send_mail(
             subject="Thank You For Contacting Us",
             message=f"""
-Hello {name},
+            Hello {name},
 
-Thank you for contacting us.
+            Thank you for contacting us.
 
-We have received your message regarding "{subject}" and will get back to you soon.
+            We have received your message regarding "{subject}" and will get back to you soon.
 
-Regards,
-Your Website Team
-""",
+            Regards,
+            Your Website Team
+            """,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
             fail_silently=False
-        )
+                )
 
         return redirect('thankyou')
 
