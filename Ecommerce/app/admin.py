@@ -9,3 +9,5 @@ admin.site.register(Register)
 admin.site.register(Product)
 
 admin.site.register(ContactMessage)
+
+admin.site.register(Category)

@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.conf import settings
 
+
 # Create your views here.
 
 def index(request):
@@ -246,6 +247,9 @@ def logoutUser(request):
 #     logout(request)   # ✅ built-in logout
 #     messages.success(request, "Logged out successfully ✅")
 #     return redirect('login')
+
+def category(request):
+    return render(request, 'category.html')
 
 
     
