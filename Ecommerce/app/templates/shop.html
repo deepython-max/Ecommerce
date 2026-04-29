@@ -107,11 +107,12 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-6 text-center">
+            {% comment %} <div class="col-md-4 col-lg-6 text-center">
                 <div class="position-relative ps-4">
                     <div class="d-flex border rounded-pill">
-                        <input class="form-control border-0 rounded-pill w-100 py-3" type="text"
-                            data-bs-target="#dropdownToggle123" placeholder="Search Looking For?">
+                        <form action="{% url 'search_item' %}" method="GET">
+                            <input type="text" name="q" class="nToggle123" placeholder="Search Looking For?">
+                        </form>
                         <select class="form-select text-dark border-0 border-start rounded-0 p-3" style="width: 200px;">
                             <option value="All Category">All Category</option>
                             <option value="Pest Control-2">Category 1</option>
@@ -123,7 +124,35 @@
                                 class="fas fa-search"></i></button>
                     </div>
                 </div>
-            </div>
+            </div> {% endcomment %}
+    <div class="col-md-4 col-lg-6 text-center">
+        <div class="position-relative ps-4">
+
+            <form action="{% url 'search_item' %}" method="GET">
+                <div class="d-flex border rounded-pill">
+
+                    <input type="text" name="query" class="form-control border-0 rounded-pill ps-4"
+                        placeholder="Search Looking For?">
+
+                    <select name="category" class="form-select text-dark border-0 border-start rounded-0 p-3"
+                        style="width: 200px;">
+                        <option value="">All Category</option>
+
+                        {% for i in category %}
+                        <option value="{{ i.id }}">{{ i.name }}</option>
+                        {% endfor %}
+
+                    </select>
+
+                    <button type="submit" class="btn btn-primary rounded-pill py-3 px-5" style="border:0;">
+                        <i class="fas fa-search"></i>
+                    </button>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
             <div class="col-md-4 col-lg-3 text-center text-lg-end">
                 <div class="d-inline-flex align-items-center">
                     <a href="#" class="text-muted d-flex align-items-center justify-content-center me-3"><span

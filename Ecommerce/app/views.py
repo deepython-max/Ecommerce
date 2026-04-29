@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db.models import Q
 
 
 # Create your views here.
@@ -250,6 +251,44 @@ def logoutUser(request):
 
 def category(request):
     return render(request, 'category.html')
+
+# def search_item(request):
+#     query = request.GET.get('query')
+#     products = Product.objects.none()
+
+#     if query:
+#         products = Product.objects.filter(
+#             Q(name__icontains=query) |
+#             Q(description__icontains=query) |
+#             Q(brand__icontains=query)
+#         )
+
+#     return render(request, 'shop.html', {
+#         'products': products,
+#         'query': query
+#     })
+def search_item(request):
+    query = request.GET.get('query')
+    category = request.GET.get('category')
+
+    products = Product.objects.all()
+
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) |
+            Q(brand__icontains=query)
+        )
+
+    if category:
+        products = products.filter(category_id=category)
+
+    all_category = Category.objects.all()
+
+    return render(request, 'shop.html', {
+        'products': products,
+        'category': all_category
+    })
+    
 
 
     
