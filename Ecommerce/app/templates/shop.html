@@ -128,10 +128,10 @@
     <div class="col-md-4 col-lg-6 text-center">
         <div class="position-relative ps-4">
 
-            <form action="{% url 'search_item' %}" method="GET">
+            {% comment %} <form action="{% url 'search_item' %}" method="GET">
                 <div class="d-flex border rounded-pill">
 
-                    <input type="text" name="query" class="form-control border-0 rounded-pill ps-4"
+                    <input type="text" name="q" class="form-control border-0 rounded-pill ps-4"
                         placeholder="Search Looking For?">
 
                     <select name="category" class="form-select text-dark border-0 border-start rounded-0 p-3"
@@ -149,7 +149,23 @@
                     </button>
 
                 </div>
-            </form>
+            </form> {% endcomment %}
+
+            <form action="{% url 'search_item' %}" method="GET">
+    <div class="d-flex border rounded-pill">
+
+        <input type="text" name="query"
+            class="form-control border-0 rounded-pill ps-4"
+            placeholder="Search Looking For?">
+
+        <button type="submit"
+            class="btn btn-primary rounded-pill py-3 px-5"
+            style="border:0;">
+            <i class="fas fa-search"></i>
+        </button>
+
+    </div>
+</form>
 
         </div>
     </div>

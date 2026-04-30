@@ -267,29 +267,40 @@ def category(request):
 #         'products': products,
 #         'query': query
 #     })
-def search_item(request):
-    query = request.GET.get('query')
-    category = request.GET.get('category')
+# def search_item(request):
+#     query = request.GET.get('query')
+#     category = request.GET.get('category')
 
-    products = Product.objects.all()
+#     products = Product.objects.all()
+
+#     if query:
+#         products = products.filter(
+#             Q(name__icontains=query) |
+#             Q(brand__icontains=query)
+#         )
+
+#     if category:
+#         products = products.filter(category_id=category)
+
+#     all_category = Category.objects.all()
+
+#     return render(request, 'shop.html', {
+#         'products': products,
+#         'category': all_category
+#     })
+
+def search_item(request):
+    query = request.GET.get('query', '')   # matches HTML name
+
+    products = Product.objects.all()  # start with all products
 
     if query:
-        products = products.filter(
-            Q(name__icontains=query) |
-            Q(brand__icontains=query)
-        )
-
-    if category:
-        products = products.filter(category_id=category)
-
-    all_category = Category.objects.all()
+        products = products.filter(name__icontains=query)
 
     return render(request, 'shop.html', {
         'products': products,
-        'category': all_category
+        'query': query
     })
-    
-
 
     
 
