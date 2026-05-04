@@ -41,4 +41,19 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Cart(models.Model):
+    user = models.ForeignKey(Register, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.name
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.product.name
 

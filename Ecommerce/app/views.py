@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import redirect, render
 from django.contrib import messages
 from .models import *
 from django.contrib.auth import authenticate, login, logout
@@ -31,8 +31,27 @@ def bestseller(request):
     return render(request, 'bestseller.html')
 
 def cart(request):
-    return render(request, 'cart.html')
+    if not request.session.get('user_id'):
+        return redirect('login')
 
+    user = Register.objects.get(id=request.session.get('user_id'))
+
+    cart = Cart.objects.filter(user=user).first()
+
+    items = []
+    total = 0
+
+    if cart:
+        items = CartItem.objects.filter(cart=cart)
+
+        for i in items:
+            i.subtotal = i.product.price * i.quantity
+            total += i.subtotal
+
+    return render(request, 'cart.html', {
+        'items': items,
+        'total': total
+    })
 def cheackout(request):
     return render(request, 'cheackout.html')
 
@@ -302,7 +321,61 @@ def search_item(request):
         'query': query
     })
 
+def add_to_cart(request, id):
+    if not request.session.get('user_id'):
+        return redirect('login')
+
+    user = Register.objects.get(id=request.session.get('user_id'))
+    product = Product.objects.get(id=id)
+
+    cart, created = Cart.objects.get_or_create(user=user)
+
+    item, created = CartItem.objects.get_or_create(
+        cart=cart,
+        product=product
+    )
+
+    if not created:
+        item.quantity += 1
+        item.save()
+
+    return redirect('cart')
+
+def cart(request):
+    if not request.session.get('user_id'):
+        return redirect('login')
+
+    user = Register.objects.get(id=request.session.get('user_id'))
+    cart, created = Cart.objects.get_or_create(user=user)
+
+    items = CartItem.objects.filter(cart=cart)
+
+    return render(request, 'cart.html', {'items': items})
+
+
+def remove_cart(request, id):
+    item = CartItem.objects.get(id=id)
+    item.delete()
+    return redirect('cart')
     
 
+def plus_cart(request, id):
+    item = CartItem.objects.get(CartItem,id=id)   # get cart item
 
+    item.quantity += 1   # increase
+    item.save()          # save in DB
+
+    return redirect('cart')  # go back to cart page
+
+
+def minus_cart(request, id):
+    item = CartItem.objects.get(id=id)
+
+    if item.quantity > 1:
+        item.quantity -= 1
+        item.save()
+    else:
+        item.delete()
+
+    return redirect('cart')
 
