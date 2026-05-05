@@ -18,9 +18,12 @@ urlpatterns = [
     path('category', views.category, name='category'),
     path('search_item', views.search_item, name='search_item'),
     path('add-to-cart/<int:id>/', views.add_to_cart, name='add_to_cart'),
-    path('remove-cart/<int:id>/', views.minus_cart, name='minus_cart'),
-    path('remove-cart/<int:id>/', views.plus_cart, name='plus_cart'),
-    path('add-to-cart/<int:id>/', views.add_to_cart, name='add_to_cart'),
+    path('remove-cart/<int:id>/', views.remove_cart, name='remove_cart'),
+    # path('remove-cart/<int:id>/', views.minus_cart, name='minus_cart'),
+    # path('remove-cart/<int:id>/', views.plus_cart, name='plus_cart'),
+    # path('add-to-cart/<int:id>/', views.add_to_cart, name='add_to_cart'),
+    path('plus-cart/<int:id>/', views.plus_cart, name='plus_cart'),
+    path('minus-cart/<int:id>/', views.minus_cart, name='minus_cart'),
   
 
 ]

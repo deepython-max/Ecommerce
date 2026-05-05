@@ -30,28 +30,6 @@ def index(request):
 def bestseller(request):
     return render(request, 'bestseller.html')
 
-def cart(request):
-    if not request.session.get('user_id'):
-        return redirect('login')
-
-    user = Register.objects.get(id=request.session.get('user_id'))
-
-    cart = Cart.objects.filter(user=user).first()
-
-    items = []
-    total = 0
-
-    if cart:
-        items = CartItem.objects.filter(cart=cart)
-
-        for i in items:
-            i.subtotal = i.product.price * i.quantity
-            total += i.subtotal
-
-    return render(request, 'cart.html', {
-        'items': items,
-        'total': total
-    })
 def cheackout(request):
     return render(request, 'cheackout.html')
 
@@ -271,43 +249,6 @@ def logoutUser(request):
 def category(request):
     return render(request, 'category.html')
 
-# def search_item(request):
-#     query = request.GET.get('query')
-#     products = Product.objects.none()
-
-#     if query:
-#         products = Product.objects.filter(
-#             Q(name__icontains=query) |
-#             Q(description__icontains=query) |
-#             Q(brand__icontains=query)
-#         )
-
-#     return render(request, 'shop.html', {
-#         'products': products,
-#         'query': query
-#     })
-# def search_item(request):
-#     query = request.GET.get('query')
-#     category = request.GET.get('category')
-
-#     products = Product.objects.all()
-
-#     if query:
-#         products = products.filter(
-#             Q(name__icontains=query) |
-#             Q(brand__icontains=query)
-#         )
-
-#     if category:
-#         products = products.filter(category_id=category)
-
-#     all_category = Category.objects.all()
-
-#     return render(request, 'shop.html', {
-#         'products': products,
-#         'category': all_category
-#     })
-
 def search_item(request):
     query = request.GET.get('query', '')   # matches HTML name
 
@@ -341,31 +282,11 @@ def add_to_cart(request, id):
 
     return redirect('cart')
 
-def cart(request):
-    if not request.session.get('user_id'):
-        return redirect('login')
-
-    user = Register.objects.get(id=request.session.get('user_id'))
-    cart, created = Cart.objects.get_or_create(user=user)
-
-    items = CartItem.objects.filter(cart=cart)
-
-    return render(request, 'cart.html', {'items': items})
-
-
-def remove_cart(request, id):
-    item = CartItem.objects.get(id=id)
-    item.delete()
-    return redirect('cart')
-    
-
 def plus_cart(request, id):
-    item = CartItem.objects.get(CartItem,id=id)   # get cart item
-
-    item.quantity += 1   # increase
-    item.save()          # save in DB
-
-    return redirect('cart')  # go back to cart page
+    item = CartItem.objects.get(id=id)
+    item.quantity += 1
+    item.save()
+    return redirect('cart')
 
 
 def minus_cart(request, id):
@@ -378,4 +299,32 @@ def minus_cart(request, id):
         item.delete()
 
     return redirect('cart')
+
+
+def remove_cart(request, id):
+    item = CartItem.objects.get(id=id)
+    item.delete()
+    return redirect('cart')
+
+def cart(request):
+    if not request.session.get('user_id'):
+        return redirect('login')
+
+    user = Register.objects.get(id=request.session.get('user_id'))
+
+    cart, created = Cart.objects.get_or_create(user=user)
+
+    items = CartItem.objects.filter(cart=cart)
+    total = 0
+
+    for i in items:
+        i.subtotal = i.product.price * i.quantity
+        total += i.subtotal
+
+    return render(request, 'cart.html', {
+        'items': items,
+        'total': total
+    })
+
+
 

@@ -294,47 +294,61 @@
     <th scope="row">
         <p class="mb-0 py-4">{{ i.product.name }}</p>
     </th>
+
     <td>
         <p class="mb-0 py-4">{{ i.product.brand }}</p>
     </td>
+
     <td>
-        <p class="mb-0 py-4">{{ i.product.price }}</p>
+        <p class="mb-0 py-4">₹{{ i.product.price }}</p>
     </td>
+
     <td>
         <div class="input-group quantity py-4" style="width: 100px;">
             <div class="input-group-btn">
                 <a href="{% url 'minus_cart' i.id %}">
-                    <button class="btn btn-sm rounded-circle bg-light border">
+                    <button type="button" class="btn btn-sm rounded-circle bg-light border">
                         <i class="fa fa-minus"></i>
                     </button>
                 </a>
             </div>
 
-            <input type="text" class="form-control form-control-sm text-center border-0"
-                   value="{{ i.quantity }}">
+            <input type="text"
+                   class="form-control form-control-sm text-center border-0"
+                   value="{{ i.quantity }}"
+                   readonly>
 
             <div class="input-group-btn">
                 <a href="{% url 'plus_cart' i.id %}">
-                    <button class="btn btn-sm rounded-circle bg-light border">
+                    <button type="button" class="btn btn-sm rounded-circle bg-light border">
                         <i class="fa fa-plus"></i>
                     </button>
                 </a>
             </div>
         </div>
     </td>
-     <td>
-        <p class="mb-0 py-4">₹{{ i.product.price|floatformat:0|add:"0"|floatformat:0 }}</p>
+
+    <td>
+        <p class="mb-0 py-4">₹{{ i.subtotal }}</p>
     </td>
+
     <td class="py-4">
-       <button class="btn btn-md rounded-circle bg-light border">
-        <i class="fa fa-times text-danger"></i>
-       </button>
-    </td>                         
-    
+        <a href="{% url 'remove_cart' i.id %}">
+            <button type="button" class="btn btn-md rounded-circle bg-light border">
+                <i class="fa fa-times text-danger"></i>
+            </button>
+        </a>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="6" class="text-center py-5">
+        <h4>Your cart is empty</h4>
+    </td>
 </tr>
 {% endfor %}
 </tbody>
-                             <td>
+                             {% comment %} <td>
                                 <p class="mb-0 py-4">2.99 $</p>
                             </td>
                             <td class="py-4">
@@ -412,7 +426,7 @@
                                     <i class="fa fa-times text-danger"></i>
                                 </button>
                             </td>
-                        </tr>
+                        </tr> {% endcomment %}
                     </tbody>
                 </table>
             </div> 
@@ -424,27 +438,37 @@
                 <div class="col-8"></div>
                 <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
                     <div class="bg-light rounded">
-                        <div class="p-4">
-                            <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
-                            <div class="d-flex justify-content-between mb-4">
-                                <h5 class="mb-0 me-4">Subtotal:</h5>
-                                <p class="mb-0">$96.00</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <h5 class="mb-0 me-4">Shipping</h5>
-                                <div>
-                                    <p class="mb-0">Flat rate: $3.00</p>
-                                </div>
-                            </div>
-                            <p class="mb-0 text-end">Shipping to Ukraine.</p>
-                        </div>
-                        <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
-                            <h5 class="mb-0 ps-4 me-4">Total</h5>
-                            <p class="mb-0 pe-4">$99.00</p>
-                        </div>
-                        <button class="btn btn-primary rounded-pill px-4 py-3 text-uppercase mb-4 ms-4"
-                            type="button">Proceed Checkout</button>
-                    </div>
+    <div class="p-4">
+        <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
+
+        <!-- Subtotal -->
+        <div class="d-flex justify-content-between mb-4">
+            <h5 class="mb-0 me-4">Subtotal:</h5>
+            <p class="mb-0">₹{{ total }}</p>
+        </div>
+
+        <!-- Shipping -->
+        <div class="d-flex justify-content-between">
+            <h5 class="mb-0 me-4">Shipping</h5>
+            <div>
+                <p class="mb-0">Flat rate: ₹3</p>
+            </div>
+        </div>
+
+        <p class="mb-0 text-end">Shipping to India.</p>
+    </div>
+
+    <!-- Final Total -->
+    <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
+        <h5 class="mb-0 ps-4 me-4">Total</h5>
+        <p class="mb-0 pe-4">₹{{ total|add:3 }}</p>
+    </div>
+
+    <button class="btn btn-primary rounded-pill px-4 py-3 text-uppercase mb-4 ms-4"
+        type="button">
+        Proceed Checkout
+    </button>
+</div>
                 </div>
             </div>
         </div>
