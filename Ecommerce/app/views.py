@@ -31,7 +31,40 @@ def bestseller(request):
     return render(request, 'bestseller.html')
 
 def cheackout(request):
-    return render(request, 'cheackout.html')
+
+    items = CartItem.objects.all()
+
+    subtotal = 0
+
+    for i in items:
+        i.subtotal = i.product.price * i.quantity
+        subtotal += i.subtotal
+
+    total = subtotal
+
+    context = {
+        'items': items,
+        'subtotal': subtotal,
+        'total': total,
+    }
+
+    if request.method == "POST":
+        Cheakout.objects.create(
+            first_name=request.POST.get('first_name'),
+            last_name=request.POST.get('last_name'),
+            company_name=request.POST.get('company_name'),
+            email=request.POST.get('email'),
+            phone=request.POST.get('phone'),
+            address=request.POST.get('address'),
+            city=request.POST.get('city'),
+            country=request.POST.get('country'),
+            zip_code=request.POST.get('zip_code'),
+            notes=request.POST.get('notes')
+        )
+
+        return redirect('thankyou')
+
+    return render(request, 'cheackout.html', context)
 
 # def contact(request):
 #     return render(request, 'contact.html')
@@ -325,6 +358,7 @@ def cart(request):
         'items': items,
         'total': total
     })
+
 
 
 

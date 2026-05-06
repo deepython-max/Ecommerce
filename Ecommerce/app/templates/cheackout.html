@@ -347,6 +347,8 @@
 
 
     <!-- Checkout Page Start -->
+    <form method="POST">
+    {% csrf_token %}
     <div class="container-fluid bg-light overflow-hidden py-5">
         <div class="container py-5">
             <h1 class="mb-4 wow fadeInUp" data-wow-delay="0.1s">Billing details</h1>
@@ -357,43 +359,43 @@
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-item w-100">
                                     <label class="form-label my-3">First Name<sup>*</sup></label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="first_name" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-item w-100">
                                     <label class="form-label my-3">Last Name<sup>*</sup></label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="last_name"class="form-control">
                                 </div>
                             </div>
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Company Name<sup>*</sup></label>
-                            <input type="text" class="form-control">
+                            <input type="text" name="conmpany_name" class="form-control">
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Address <sup>*</sup></label>
-                            <input type="text" class="form-control" placeholder="House Number Street Name">
+                            <input type="text" name="address" class="form-control" placeholder="House Number Street Name">
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Town/City<sup>*</sup></label>
-                            <input type="text" class="form-control">
+                            <input type="text" name="city" class="form-control">
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Country<sup>*</sup></label>
-                            <input type="text" class="form-control">
+                            <input type="text" name="country" class="form-control">
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                            <input type="text" class="form-control">
+                            <input type="text" name="zip_code" class="form-control">
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Mobile<sup>*</sup></label>
-                            <input type="tel" class="form-control">
+                            <input type="tel" name="phone" class="form-control">
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Email Address<sup>*</sup></label>
-                            <input type="email" class="form-control">
+                            <input type="email" name="emali" class="form-control">
                         </div>
                         <div class="form-check my-3">
                             <input type="checkbox" class="form-check-input" id="Account-1" name="Accounts"
@@ -407,10 +409,12 @@
                             <label class="form-check-label" for="Address-1">Ship to a different address?</label>
                         </div>
                         <div class="form-item">
-                            <textarea name="text" class="form-control" spellcheck="false" cols="30" rows="11"
-                                placeholder="Oreder Notes (Optional)"></textarea>
-                        </div>
+    <textarea name="notes" class="form-control" spellcheck="false"
+        cols="30" rows="11"
+        placeholder="Order Notes (Optional)"></textarea>
+</div>
                     </div>
+                </form>
                     <div class="col-md-12 col-lg-6 col-xl-6 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="table-responsive">
                             <table class="table">
@@ -424,25 +428,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for i in items %}
                                     <tr class="text-center">
                                         <th scope="row" class="text-start py-4">
-                                            Apple iPad Mini
+                                            {{i.product.name}}
                                         </th>
-                                        <td class="py-4">G2356</td>
-                                        <td class="py-4">$269.00</td>
-                                        <td class="py-4 text-center">2</td>
-                                        <td class="py-4">$538.00</td>
+                                        <td class="py-4">{{i.product.brand}}</td>
+                                        <td class="py-4">{{i.product.price}}</td>
+                                        <td class="py-4 text-center">{{i.quantity}}</td>
+                                        <td class="py-4">{{i.subtotal}}</td>
                                     </tr>
-                                    <tr class="text-center">
-                                        <th scope="row" class="text-start py-4">
-                                            Apple iPad Mini
-                                        </th>
-                                        <td class="py-4">G2356</td>
-                                        <td class="py-4">$269.00</td>
-                                        <td class="py-4">2</td>
-                                        <td class="py-4">$538.00</td>
-                                    </tr>
-                                    <tr class="text-center">
+                                     {% endfor%}
+                                    {% comment %} <tr class="text-center">
                                         <th scope="row" class="text-start py-4">
                                             Apple iPad Mini
                                         </th>
@@ -469,6 +466,15 @@
                                         <td class="py-4">2</td>
                                         <td class="py-4">$538.00</td>
                                     </tr>
+                                    <tr class="text-center">
+                                        <th scope="row" class="text-start py-4">
+                                            Apple iPad Mini
+                                        </th>
+                                        <td class="py-4">G2356</td>
+                                        <td class="py-4">$269.00</td>
+                                        <td class="py-4">2</td>
+                                        <td class="py-4">$538.00</td>
+                                    </tr> {% endcomment %}
                                     <tr>
                                         <th scope="row">
                                         </th>
@@ -479,7 +485,7 @@
                                         </td>
                                         <td class="py-4">
                                             <div class="py-2 text-center border-bottom border-top">
-                                                <p class="mb-0 text-dark">$1134.00</p>
+                                                <p class="mb-0 text-dark">{{total}}</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -519,7 +525,7 @@
                                         <td class="py-4"></td>
                                         <td class="py-4">
                                             <div class="py-2 text-center border-bottom border-top">
-                                                <p class="mb-0 text-dark">$135.00</p>
+                                                <p class="mb-0 text-dark">{{total}}</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -566,13 +572,16 @@
                             </div>
                         </div>
                         <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                            <a href="{% url 'cheackout'%}">
                             <button type="button"
                                 class="btn btn-primary border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place
                                 Order</button>
+                                </a>
                         </div>
                     </div>
                 </div>
             </form>
+           
         </div>
     </div>
     <!-- Checkout Page End -->

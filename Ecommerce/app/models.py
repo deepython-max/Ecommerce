@@ -57,3 +57,19 @@ class CartItem(models.Model):
     def __str__(self):
         return self.product.name
 
+class Cheakout(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    conmpany_name = models.CharField(max_length=100)
+    address = models.TextField()
+    city = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=10)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()   
+    notes=models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
