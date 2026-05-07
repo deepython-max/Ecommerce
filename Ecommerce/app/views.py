@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -52,7 +53,7 @@ def cheackout(request):
         Cheakout.objects.create(
             first_name=request.POST.get('first_name'),
             last_name=request.POST.get('last_name'),
-            company_name=request.POST.get('company_name'),
+            conmpany_name=request.POST.get('conmpany_name'),
             email=request.POST.get('email'),
             phone=request.POST.get('phone'),
             address=request.POST.get('address'),
@@ -132,11 +133,40 @@ def contact(request):
 def thankyou(request):
     return render(request, 'thankyou.html', {'name': ContactMessage.objects.last().name})
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 def shop(request):
+
+    query = request.GET.get('query')
+
     products = Product.objects.all()
-    context = {'products': products}
+
+    # search functionality
+    if query:
+        products = products.filter(name__icontains=query)
+
+    # pagination
+    paginator = Paginator(products, 4)
+
+    page = request.GET.get('page')
+
+    try:
+        products = paginator.page(page)
+
+    except PageNotAnInteger:
+        products = paginator.page(1)
+
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+
+    context = {
+        'products': products,
+        'query': query,
+    }
 
     return render(request, 'shop.html', context)
+
+
 
 def single(request):
     return render(request, 'single.html')

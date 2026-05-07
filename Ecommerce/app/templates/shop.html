@@ -726,7 +726,7 @@
     </div>
 </div>  
                              
-                                {% comment %} <div class="col-lg-4">
+                                {% comment %} {% comment %} <div class="col-lg-4">
                                     <div class="product-item rounded wow fadeInUp" data-wow-delay="0.3s">
                                         <div class="product-item-inner border rounded">
                                             <div class="product-item-inner-item">
@@ -1571,8 +1571,43 @@
             </div>
         </div>
     </div> {% endcomment %}
-    <!-- Shop Page End -->
+    <!-- Shop Page End --> 
+<div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="pagination d-flex justify-content-center mt-5">
 
+        {% if products.has_previous %}
+        <a href="?page={{ products.previous_page_number }}{% if query %}&query={{ query }}{% endif %}"
+           class="rounded">
+            &laquo;
+        </a>
+        {% endif %}
+
+        {% for num in products.paginator.page_range %}
+
+            {% if products.number == num %}
+            <a href="?page={{ num }}{% if query %}&query={{ query }}{% endif %}"
+               class="active rounded">
+                {{ num }}
+            </a>
+
+            {% else %}
+            <a href="?page={{ num }}{% if query %}&query={{ query }}{% endif %}"
+               class="rounded">
+                {{ num }}
+            </a>
+            {% endif %}
+
+        {% endfor %}
+
+        {% if products.has_next %}
+        <a href="?page={{ products.next_page_number }}{% if query %}&query={{ query }}{% endif %}"
+           class="rounded">
+            &raquo;
+        </a>
+        {% endif %}
+
+    </div>
+</div>
     <!-- Product Banner Start -->
      <br>
      <br>
