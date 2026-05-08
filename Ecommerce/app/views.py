@@ -17,8 +17,14 @@ def index(request):
         return redirect('login')
 
     name = request.session.get('user_name')
+    products = Product.objects.all()
 
-    return render(request, 'index.html', {'name': name})
+    context = {
+        'name': name,
+        'products': products
+    }
+
+    return render(request, 'index.html', context)
 
 
 # def index(request):
