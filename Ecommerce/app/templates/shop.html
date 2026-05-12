@@ -173,8 +173,17 @@
                 <div class="d-inline-flex align-items-center">
                     <a href="#" class="text-muted d-flex align-items-center justify-content-center me-3"><span
                             class="rounded-circle btn-md-square border"><i class="fas fa-random"></i></i></a>
-                    <a href="#" class="text-muted d-flex align-items-center justify-content-center me-3"><span
-                            class="rounded-circle btn-md-square border"><i class="fas fa-heart"></i></a>
+                   <a href="{% url 'wishlist' %}"
+   class="text-muted d-flex align-items-center justify-content-center me-3 position-relative">
+
+    <span class="rounded-circle btn-md-square border d-flex align-items-center justify-content-center">
+        <i class="fas fa-heart"></i>
+    </span>
+
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ wishlist_count }}
+    </span>
+</a>
                     <a href="#" class="text-muted d-flex align-items-center justify-content-center"><span
                             class="rounded-circle btn-md-square border"><i class="fas fa-shopping-cart"></i></span>
                         <span class="text-dark ms-2">$0.00</span></a>
@@ -710,7 +719,7 @@
                                     </span>
                                 </a>
 
-                                <a href="#" class="text-primary d-flex align-items-center justify-content-center me-0">
+                                <a href="{% url 'add_wishlist' i.id %}" class="text-primary d-flex align-items-center justify-content-center me-0">
                                     <span class="rounded-circle btn-sm-square border">
                                         <i class="fas fa-heart"></i>
                                     </span>

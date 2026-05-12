@@ -17,3 +17,5 @@ admin.site.register(Cart)
 admin.site.register(CartItem)
 
 admin.site.register(Cheakout)
+
+admin.site.register(Wishlist)

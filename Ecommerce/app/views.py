@@ -165,14 +165,15 @@ def shop(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
 
+    wishlist_count = Wishlist.objects.count()
+
     context = {
         'products': products,
         'query': query,
+        'wishlist_count': wishlist_count,
     }
 
     return render(request, 'shop.html', context)
-
-
 
 def single(request):
     return render(request, 'single.html')
@@ -395,6 +396,31 @@ def cart(request):
         'total': total
     })
 
+from django.shortcuts import get_object_or_404, redirect
 
+def add_wishlist(request, id):
+    product = get_object_or_404(Product, id=id)
 
+    existing = Wishlist.objects.filter(product=product)
+
+    if existing.exists():
+        existing.delete()
+    else:
+        Wishlist.objects.create(product=product)
+
+    return redirect('shop')   # or redirect('shop')
+    
+def remove_wishlist(request, id):
+    product = get_object_or_404(Product, id=id)
+    product.delete()
+    return redirect('wishlist') 
+
+def wishlist(request):
+    wishlists = Wishlist.objects.all()
+    wishlist_count = wishlists.count()
+
+    return render(request, 'wishlist.html', {
+        'wishlists': wishlists,
+        'wishlist_count': wishlist_count
+    })
 
