@@ -257,9 +257,9 @@
                             Add To Cart
                         </a>
 
-                        <a href="{% url 'add_wishlist' item.product.id %}"
-                           class="btn remove-btn"
-                           onclick="return confirmRemove()">
+                        <a href="{% url 'remove_wishlist' item.product.id %}"
+                            class="btn remove-btn"
+                            onclick="return confirmRemove()">
                             Remove
                         </a>
 

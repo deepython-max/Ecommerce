@@ -405,15 +405,21 @@ def add_wishlist(request, id):
 
     if existing.exists():
         existing.delete()
+        return redirect('wishlist')
     else:
         Wishlist.objects.create(product=product)
-
-    return redirect('shop')   # or redirect('shop')
+        return redirect('shop')   # or redirect('shop')
     
+# def remove_wishlist(request, id):
+    
+#     product = get_object_or_404(Product, id=id)
+#     product.delete()
+#     return redirect('wishlist') 
+
 def remove_wishlist(request, id):
-    product = get_object_or_404(Product, id=id)
-    product.delete()
-    return redirect('wishlist') 
+    wishlist_item = get_object_or_404(Wishlist, product_id=id)
+    wishlist_item.delete()
+    return redirect('wishlist')
 
 def wishlist(request):
     wishlists = Wishlist.objects.all()

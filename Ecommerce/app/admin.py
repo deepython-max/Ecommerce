@@ -6,6 +6,7 @@ from .models import *
 
 admin.site.register(Register)
 
+# admin.site.register(Product)
 admin.site.register(Product)
 
 admin.site.register(ContactMessage)
@@ -19,3 +20,7 @@ admin.site.register(CartItem)
 admin.site.register(Cheakout)
 
 admin.site.register(Wishlist)
+
+
+
+

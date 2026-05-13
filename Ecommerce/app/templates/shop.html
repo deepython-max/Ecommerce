@@ -634,17 +634,19 @@
                             <a href="#" class="btn btn-primary rounded-pill">Shop Now</a>
                         </div>
                     </div>
-                    <div class="row g-4">
+                    <div class="row g-4 mb-5 align-items-center">
                         <div class="col-xl-7">
-                            <div class="input-group w-100 mx-auto d-flex">
+                            <div class="input-group w-100 mx-auto d-flex" style="height: 78px;">
                                 <input type="search" class="form-control p-3" placeholder="keywords"
                                     aria-describedby="search-icon-1">
                                 <span id="search-icon-1" class="input-group-text p-3"><i
                                         class="fa fa-search"></i></span>
                             </div>
                         </div>
-                        <div class="col-xl-3 text-end">
-                            <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between">
+                        {% comment %} <div class="col-xl-3 text-end"> {% endcomment %}
+                        <div class="col-xl-3 d-flex align-items-stretch">
+                            {% comment %} <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between"> {% endcomment %}
+                            <div class="bg-light px-3 rounded d-flex align-items-center justify-content-between w-100"  style="height: 78px;">
                                 <label for="electronics">Sort By:</label>
                                 <select id="electronics" name="electronicslist"
                                     class="border-0 form-select-sm bg-light me-3" form="electronicsform">
@@ -658,19 +660,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-xl-2">
-                            <ul class="nav nav-pills d-inline-flex text-center py-2 px-2 rounded bg-light mb-4">
-                                <li class="nav-item me-4">
-                                    <a class="bg-light" data-bs-toggle="pill" href="#tab-5">
-                                        <i class="fas fa-th fa-3x text-primary"></i>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="bg-light" data-bs-toggle="pill" href="#tab-6">
-                                        <i class="fas fa-bars fa-3x text-primary"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                        {% comment %} <div class="col-lg-4 col-xl-2"> {% endcomment %}
+                        <div class="col-xl-2">
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center gap-4"
+                                style="height: 78px;">
+
+                                <a data-bs-toggle="pill" href="#tab-5">
+                                    <i class="fas fa-th fa-2x text-primary"></i>
+                                </a>
+
+                                <a data-bs-toggle="pill" href="#tab-6">
+                                    <i class="fas fa-bars fa-2x text-primary"></i>
+                                </a>
+
+                            </div>
                         </div>
                     </div>
                        
