@@ -165,12 +165,17 @@ def shop(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
 
-    wishlist_count = Wishlist.objects.count()
+    wishlist_item= Wishlist.objects.all()
+    wishlist_count = wishlist_item.count()
+    cart_items = CartItem.objects.all()
+    cart_count = cart_items.count()
 
     context = {
         'products': products,
         'query': query,
+        # 'wishlist_item': wishlist_item,
         'wishlist_count': wishlist_count,
+        'cart_count': cart_count
     }
 
     return render(request, 'shop.html', context)
@@ -386,6 +391,8 @@ def cart(request):
 
     items = CartItem.objects.filter(cart=cart)
     total = 0
+    cart_items = CartItem.objects.all()
+    cart_count = cart_items.count()
 
     for i in items:
         i.subtotal = i.product.price * i.quantity
@@ -393,7 +400,8 @@ def cart(request):
 
     return render(request, 'cart.html', {
         'items': items,
-        'total': total
+        'total': total,
+        'cart_count': cart_count
     })
 
 from django.shortcuts import get_object_or_404, redirect

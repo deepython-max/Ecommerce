@@ -1,8 +1,9 @@
-from .models import Wishlist
+from .models import *
 
-def wishlist_count(request):
-    count = Wishlist.objects.count()
+# def wishlist_count(request):
+#     count = Wishlist.objects.count()
 
-    return {
-        'wishlist_count': count
-    }
+#     return {
+#         'wishlist_count': count
+#     }
+
