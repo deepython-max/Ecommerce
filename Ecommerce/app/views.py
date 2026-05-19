@@ -321,8 +321,17 @@ def logoutUser(request):
 #     messages.success(request, "Logged out successfully ✅")
 #     return redirect('login')
 
-def category(request):
-    return render(request, 'category.html')
+
+def category(request, id):
+    category = Category.objects.get(id=id)
+    products = Product.objects.filter(category=category)
+
+    context = {
+        'products': products,
+        'category': category,
+    }
+
+    return render(request, 'shop.html', context)
 
 def search_item(request):
     query = request.GET.get('query', '')   # matches HTML name

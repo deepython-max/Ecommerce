@@ -7,3 +7,8 @@ from .models import *
 #         'wishlist_count': count
 #     }
 
+def categories(request):
+    return {
+        'categories': Category.objects.all()
+    }
+
