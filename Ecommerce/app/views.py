@@ -447,3 +447,11 @@ def wishlist(request):
         'wishlist_count': wishlist_count
     })
 
+def single(request, id):
+    product = get_object_or_404(Product, id=id)
+
+    context = {
+        'product': product
+    }
+
+    return render(request, 'single.html', context)
