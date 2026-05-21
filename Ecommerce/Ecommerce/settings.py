@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-#@dml2i2v##-j-gzv4vksm2$645i$!3(9(%4m)+=6&6##uab%#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['deepecommerce.pythonanywhere.com']
 
 
 # Application definition
