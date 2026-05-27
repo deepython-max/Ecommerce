@@ -144,36 +144,39 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def shop(request):
 
     query = request.GET.get('query')
-
     products = Product.objects.all()
 
-    # search functionality
     if query:
         products = products.filter(name__icontains=query)
 
-    # pagination
     paginator = Paginator(products, 4)
-
     page = request.GET.get('page')
 
     try:
         products = paginator.page(page)
-
     except PageNotAnInteger:
         products = paginator.page(1)
-
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
 
-    wishlist_item= Wishlist.objects.all()
+    wishlist_item = Wishlist.objects.all()
     wishlist_count = wishlist_item.count()
-    cart_items = CartItem.objects.all()
-    cart_count = cart_items.count()
+
+    cart_count = 0
+
+    if request.session.get('user_id'):
+        user = Register.objects.get(id=request.session.get('user_id'))
+        cart = Cart.objects.filter(user=user).first()
+
+        if cart:
+            cart_items = CartItem.objects.filter(cart=cart)
+
+            for item in cart_items:
+                cart_count += item.quantity
 
     context = {
         'products': products,
         'query': query,
-        # 'wishlist_item': wishlist_item,
         'wishlist_count': wishlist_count,
         'cart_count': cart_count
     }
@@ -395,17 +398,17 @@ def cart(request):
         return redirect('login')
 
     user = Register.objects.get(id=request.session.get('user_id'))
-
     cart, created = Cart.objects.get_or_create(user=user)
 
     items = CartItem.objects.filter(cart=cart)
+
     total = 0
-    cart_items = CartItem.objects.all()
-    cart_count = cart_items.count()
+    cart_count = 0
 
     for i in items:
         i.subtotal = i.product.price * i.quantity
         total += i.subtotal
+        cart_count += i.quantity
 
     return render(request, 'cart.html', {
         'items': items,

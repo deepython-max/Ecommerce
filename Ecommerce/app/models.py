@@ -9,7 +9,7 @@ class Category(models.Model):
 class Register(models.Model):
     name=models.CharField(max_length=100,unique=True)
     # mobile= models.IntegerField(unique=True)
-    mobile= models.IntegerField()
+    mobile = models.CharField(max_length=10)
     # email= models.EmailField(unique=True)
     email= models.EmailField(unique=True)
     password= models.CharField(max_length=50)
