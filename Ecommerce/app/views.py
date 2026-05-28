@@ -183,8 +183,8 @@ def shop(request):
 
     return render(request, 'shop.html', context)
 
-def single(request):
-    return render(request, 'single.html')
+# def single(request):
+#     return render(request, 'single.html')
 
 def error_404(request):
     return render(request, '404.html')
@@ -450,8 +450,19 @@ def wishlist(request):
         'wishlist_count': wishlist_count
     })
 
-def single(request, id):
-    product = get_object_or_404(Product, id=id)
+def single(request, id=None):
+
+    if id:
+        product = get_object_or_404(Product, id=id)
+        request.session['last_product_id'] = product.id
+
+    else:
+        last_product_id = request.session.get('last_product_id')
+
+        if last_product_id:
+            product = get_object_or_404(Product, id=last_product_id)
+        else:
+            product = None
 
     context = {
         'product': product
