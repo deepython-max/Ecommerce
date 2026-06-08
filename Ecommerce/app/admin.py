@@ -21,6 +21,8 @@ admin.site.register(Cheakout)
 
 admin.site.register(Wishlist)
 
+admin.site.register(Review)
+
 
 
 

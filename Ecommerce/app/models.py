@@ -15,7 +15,9 @@ class Register(models.Model):
     password= models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return self.name\
+        
+
     
 class Product(models.Model):
     name=models.CharField(max_length=100)
@@ -80,3 +82,15 @@ class Wishlist(models.Model):
     def __str__(self):
         return self.product.name
 
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    email= models.EmailField()
+    name = models.CharField(max_length=100)
+    rating = models.IntegerField()
+    review = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.name} - {self.product.name}"

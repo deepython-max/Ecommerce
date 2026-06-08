@@ -450,6 +450,29 @@ def wishlist(request):
         'wishlist_count': wishlist_count
     })
 
+# def single(request, id=None):
+
+#     if id:
+#         product = get_object_or_404(Product, id=id)
+#         request.session['last_product_id'] = product.id
+
+#     else:
+#         last_product_id = request.session.get('last_product_id')
+
+#         if last_product_id:
+#             product = get_object_or_404(Product, id=last_product_id)
+#         else:
+#             product = None
+
+
+
+#     context = {
+#         'product': product
+#     }
+
+#     return render(request, 'single.html', context)
+
+
 def single(request, id=None):
 
     if id:
@@ -464,8 +487,30 @@ def single(request, id=None):
         else:
             product = None
 
+    # Review Form Submission
+    if request.method == 'POST' and product:
+        print(request.POST)
+
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        review = request.POST.get('review')
+        rating = request.POST.get('rating')
+
+        Review.objects.create(
+            product=product,
+            name=name,
+            email=email,
+            review=review,
+            rating=rating
+        )
+
+        return redirect('single', id=product.id)
+
+    reviews = Review.objects.filter(product=product).order_by('-created_at')
+
     context = {
-        'product': product
+        'product': product,
+        'reviews': reviews,
     }
 
     return render(request, 'single.html', context)
