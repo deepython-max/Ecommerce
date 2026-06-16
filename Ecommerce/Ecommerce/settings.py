@@ -145,3 +145,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'martinlauren838@gmail.com'
 EMAIL_HOST_PASSWORD = 'pbxa jzrb snbr kyaw'
+
+RAZORPAY_KEY_ID ='rzp_test_T2B3gwhgJw3pMK'
+RAZORPAY_KEY_SECRET ='yKNDFjQsLuCfkMINro4kHpWA'

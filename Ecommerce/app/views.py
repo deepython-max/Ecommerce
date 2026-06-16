@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
+import razorpay
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -37,6 +38,9 @@ def index(request):
 def bestseller(request):
     return render(request, 'bestseller.html')
 
+import razorpay
+from django.conf import settings
+
 def cheackout(request):
 
     items = CartItem.objects.all()
@@ -49,13 +53,27 @@ def cheackout(request):
 
     total = subtotal
 
+    # Create Razorpay Order
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+    )
+
+    payment = client.order.create({
+        'amount': int(total * 100),  # Razorpay accepts paisa
+        'currency': 'INR',
+        'payment_capture': '1'
+    })
+
     context = {
         'items': items,
         'subtotal': subtotal,
         'total': total,
+        'order_id': payment['id'],
+        'razorpay_key': settings.RAZORPAY_KEY_ID,
     }
 
     if request.method == "POST":
+
         Cheakout.objects.create(
             first_name=request.POST.get('first_name'),
             last_name=request.POST.get('last_name'),
@@ -514,3 +532,41 @@ def single(request, id=None):
     }
 
     return render(request, 'single.html', context)
+
+
+def start_payment(request):
+
+    client= razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+    order= client.order.create({'amount': 50000, 'currency': 'INR', 'payment_capture': 1})
+
+    order_id= order['id']
+
+    Payment.objects.create(
+    razorpay_order_id=order_id,
+    amount=500,
+    paid=False
+)
+
+    context= {
+        'order_id': order_id,
+        'key': settings.RAZORPAY_KEY_ID,
+        'total': 500
+    }
+
+    return render(request, 'start_payment.html', context)
+
+def payment_success(request):
+
+    if request.method == 'POST':
+
+        payment_id = request.POST.get('razorpay_payment_id')
+        order_id = request.POST.get('razorpay_order_id')
+
+        payment = Payment.objects.get(razorpay_order_id=order_id)
+
+        payment.razorpay_payment_id = payment_id
+        payment.paid = True
+        payment.save()
+        
+    return render(request, 'success.html')

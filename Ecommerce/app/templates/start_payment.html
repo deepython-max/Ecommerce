@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Razorpay Payment</title>
+</head>
+<body>
+
+<h2>Total Amount: ₹{{ total }}</h2>
+
+<button id="rzp-button1">
+    Pay ₹{{ total }}
+</button>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+var options = {
+    "key": "{{ key }}",
+    "amount": "{{ total|floatformat:0 }}00",
+    "currency": "INR",
+    "name": "GreatKart",
+    "description": "Order Payment",
+    "order_id": "{{ order_id }}",
+
+    "handler": function (response) {
+
+        alert("Payment Successful!");
+
+        window.location.href = "{% url 'thankyou' %}";
+    }
+};
+
+var rzp1 = new Razorpay(options);
+
+/* ADD THIS BLOCK HERE */
+rzp1.on('payment.failed', function (response) {
+
+    console.log(response.error);
+
+    alert(response.error.description);
+
+});
+/* END OF BLOCK */
+
+document.getElementById('rzp-button1').onclick = function(e) {
+
+    rzp1.open();
+
+    e.preventDefault();
+};
+
+</script>
+
+</body>
+</html>
