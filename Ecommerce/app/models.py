@@ -100,5 +100,8 @@ class Payment(models.Model):
     name= models.CharField(max_length=100)
     amount=models.IntegerField()
     razorpay_order_id=models.CharField(max_length=100)
-    razorpay_payment_id=models.CharField(max_length=100)
+    razorpay_payment_id=models.CharField(
+    max_length=100,
+    blank=True,
+    null=True)
     paid = models.BooleanField(default=False)

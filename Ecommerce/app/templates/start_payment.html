@@ -11,6 +11,12 @@
     Pay ₹{{ total }}
 </button>
 
+<form id="payment-form" method="POST" action="{% url 'success' %}">
+    {% csrf_token %}
+    <input type="hidden" name="razorpay_payment_id" id="payment_id">
+    <input type="hidden" name="razorpay_order_id" id="order_id">
+</form>
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
@@ -25,20 +31,37 @@ var options = {
 
     "handler": function (response) {
 
-        alert("Payment Successful!");
+    document.getElementById("payment_id").value =
+        response.razorpay_payment_id;
 
-        window.location.href = "{% url 'thankyou' %}";
-    }
+    document.getElementById("order_id").value =
+        response.razorpay_order_id;
+
+    document.getElementById("payment-form").submit();
+}
 };
 
 var rzp1 = new Razorpay(options);
 
 /* ADD THIS BLOCK HERE */
-rzp1.on('payment.failed', function (response) {
+{% comment %} rzp1.on('payment.failed', function (response) {
 
     console.log(response.error);
 
-    alert(response.error.description);
+    alert(
+    "Code: " + response.error.code +
+    "\nReason: " + response.error.reason +
+    "\nDescription: " + response.error.description
+);
+
+}); {% endcomment %}
+
+rzp1.on('payment.failed', function (response) {
+
+    console.log("FULL RESPONSE:", response);
+    console.log("ERROR:", response.error);
+
+    alert(JSON.stringify(response, null, 2));
 
 });
 /* END OF BLOCK */

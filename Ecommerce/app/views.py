@@ -536,22 +536,35 @@ def single(request, id=None):
 
 def start_payment(request):
 
-    client= razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+    )
 
-    order= client.order.create({'amount': 50000, 'currency': 'INR', 'payment_capture': 1})
+    items = CartItem.objects.all()
 
-    order_id= order['id']
+    total = 0
+
+    for item in items:
+        total += item.product.price * item.quantity
+
+    order = client.order.create({
+        'amount': int(total * 100),  # Convert ₹ to paise
+        'currency': 'INR',
+        'payment_capture': 1
+    })
+
+    order_id = order['id']
 
     Payment.objects.create(
-    razorpay_order_id=order_id,
-    amount=500,
-    paid=False
-)
+        razorpay_order_id=order_id,
+        amount=total,
+        paid=False
+    )
 
-    context= {
+    context = {
         'order_id': order_id,
         'key': settings.RAZORPAY_KEY_ID,
-        'total': 500
+        'total': total,
     }
 
     return render(request, 'start_payment.html', context)
@@ -563,10 +576,19 @@ def payment_success(request):
         payment_id = request.POST.get('razorpay_payment_id')
         order_id = request.POST.get('razorpay_order_id')
 
-        payment = Payment.objects.get(razorpay_order_id=order_id)
+        payment = Payment.objects.get(
+            razorpay_order_id=order_id
+        )
 
         payment.razorpay_payment_id = payment_id
         payment.paid = True
         payment.save()
-        
+
+        user_id = request.session.get('user_id')
+
+        if user_id:
+            CartItem.objects.filter(
+                cart__user_id=user_id
+            ).delete()
+
     return render(request, 'success.html')
