@@ -1,4 +1,353 @@
 
+/* ==========================================================================
+   MODERN DARK GLASSMORPHISM DESIGN SYSTEM
+   ========================================================================== */
+:root {
+    --bs-primary: #3b82f6 !important;
+    --bs-primary-rgb: 59, 130, 246 !important;
+    --bs-secondary: #8b5cf6 !important;
+    --bs-secondary-rgb: 139, 92, 246 !important;
+    --bs-dark: #0f172a !important;
+    --bs-dark-rgb: 15, 23, 42 !important;
+    --bs-light: #1e293b !important;
+    --bs-light-rgb: 30, 41, 59 !important;
+    --bs-white: #ffffff !important;
+    --bs-body-bg: #0b0f19 !important;
+    --bs-body-color: #f8fafc !important;
+    --bg-dark-card: #131b2e;
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --border-glass-hover: rgba(59, 130, 246, 0.35);
+}
+
+body {
+    background-color: var(--bs-body-bg) !important;
+    color: var(--bs-body-color) !important;
+    font-family: 'Open Sans', 'Roboto', sans-serif;
+}
+
+/* Background Overrides */
+.bg-light {
+    background-color: #151d30 !important;
+}
+
+.bg-white {
+    background-color: var(--bg-dark-card) !important;
+    color: #f8fafc !important;
+}
+
+.bg-primary {
+    background-color: var(--bs-primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--bs-secondary) !important;
+}
+
+/* Glassmorphism Cards & Containers */
+.border, .border-top, .border-bottom, .border-start, .border-end {
+    border-color: var(--border-glass) !important;
+}
+
+.card, .product-item, .products-mini-item, .box {
+    background: rgba(19, 27, 46, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid var(--border-glass) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+    color: #f8fafc !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.product-item:hover, .products-mini-item:hover {
+    border-color: var(--border-glass-hover) !important;
+    box-shadow: 0 14px 35px rgba(59, 130, 246, 0.2) !important;
+    transform: translateY(-4px);
+}
+
+/* Text Colors */
+.text-dark {
+    color: #f1f5f9 !important;
+}
+
+.text-muted {
+    color: #94a3b8 !important;
+}
+
+.text-primary {
+    color: #60a5fa !important;
+}
+
+.text-secondary {
+    color: #a78bfa !important;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #f8fafc !important;
+}
+
+a {
+    color: #60a5fa;
+}
+
+a:hover {
+    color: #93c5fd;
+}
+
+/* Inputs & Form Controls */
+.form-control, .form-select {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.form-control::placeholder {
+    color: #64748b !important;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #131b2e !important;
+    color: #ffffff !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+}
+
+/* Tables & Lists */
+.table {
+    color: #f8fafc !important;
+    border-color: var(--border-glass) !important;
+}
+
+.table th, .table td {
+    background-color: transparent !important;
+    color: #f8fafc !important;
+    border-color: var(--border-glass) !important;
+}
+
+/* Dropdowns & Navigation */
+.dropdown-menu {
+    background-color: #0f172a !important;
+    border: 1px solid var(--border-glass) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 12px !important;
+}
+
+.dropdown-item {
+    color: #cbd5e1 !important;
+    padding: 8px 20px !important;
+    transition: all 0.2s ease !important;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: #1e293b !important;
+    color: #60a5fa !important;
+}
+
+/* Desktop Hover & Click Dropdown Support */
+@media (min-width: 992px) {
+    .dropdown:hover > .dropdown-menu,
+    .nav-item.dropdown:hover > .dropdown-menu {
+        display: block !important;
+        margin-top: 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+}
+
+.dropdown-menu.show {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Translucent Glassmorphic Header Navbar */
+.navbar.bg-primary, 
+.navbar-light.bg-primary, 
+.nav-bar .bg-primary,
+.nav-bar {
+    background: rgba(30, 41, 59, 0.75) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(59, 130, 246, 0.25) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 12px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #f8fafc !important;
+    font-weight: 600 !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover, 
+.navbar-light .navbar-nav .nav-link.active {
+    color: #60a5fa !important;
+}
+
+/* Pagination */
+.pagination a {
+    color: #f8fafc;
+    background-color: #1e293b;
+    border: 1px solid var(--border-glass);
+}
+
+.pagination a.active {
+    background-color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+    color: #ffffff !important;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #334155 !important;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #070a12 !important;
+    color: #94a3b8 !important;
+    border-top: 1px solid var(--border-glass);
+}
+
+.footer h4, .footer a {
+    color: #e2e8f0 !important;
+}
+
+.footer a:hover {
+    color: #60a5fa !important;
+}
+
+/* Button Overrides */
+.btn-primary, .btn-primary:focus, .btn-primary:active {
+    color: #ffffff !important;
+    background-color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4) !important;
+}
+
+.btn-primary:hover {
+    color: #ffffff !important;
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6) !important;
+}
+
+.btn-secondary, .btn-secondary:focus, .btn-secondary:active {
+    color: #ffffff !important;
+    background-color: #8b5cf6 !important;
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4) !important;
+}
+
+.btn-secondary:hover {
+    color: #ffffff !important;
+    background-color: #7c3aed !important;
+    border-color: #7c3aed !important;
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6) !important;
+}
+
+.btn-outline-primary {
+    color: #60a5fa !important;
+    border-color: #3b82f6 !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-primary:hover {
+    color: #ffffff !important;
+    background-color: #3b82f6 !important;
+}
+
+/* Badge & Product Item Styling */
+.badge.bg-danger, .badge.bg-primary {
+    background-color: #ef4444 !important;
+}
+
+.product-new {
+    background-color: #8b5cf6 !important;
+    color: #ffffff !important;
+}
+
+/* Light & Clean Product Cards (High Product Contrast) */
+.product-item, .product-item-inner, .products-mini-item {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    color: #1e293b !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18) !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.product-item:hover, .products-mini-item:hover {
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25) !important;
+    transform: translateY(-5px) !important;
+}
+
+.product-item-inner-item {
+    background-color: #ffffff !important;
+    border-top-left-radius: 16px !important;
+    border-top-right-radius: 16px !important;
+    padding: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 200px !important;
+}
+
+.product-item-inner-item img, .products-mini-img img {
+    background-color: #ffffff !important;
+    object-fit: contain !important;
+    max-height: 180px !important;
+}
+
+.product-item .text-center {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+}
+
+.product-item .text-center h4, 
+.product-item .text-center .h4, 
+.product-item .text-center a.h4,
+.products-mini-content a.h4 {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+.product-item .text-center a {
+    color: #475569 !important;
+}
+
+.product-item .text-center a:hover {
+    color: #2563eb !important;
+}
+
+.product-item .text-primary, .products-mini-content .text-primary {
+    color: #2563eb !important;
+    font-weight: 700 !important;
+}
+
+.product-item del, .products-mini-content del {
+    color: #94a3b8 !important;
+}
+
+.product-item-add {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+}
+
+.product-categories {
+    background-color: #131b2e !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.product-categories a {
+    color: #cbd5e1 !important;
+}
+
+.product-categories a:hover {
+    color: #60a5fa !important;
+}
+
 /*** Spinner Start ***/
 /*** Spinner ***/
 #spinner {

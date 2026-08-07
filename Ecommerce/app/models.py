@@ -105,3 +105,6 @@ class Payment(models.Model):
     blank=True,
     null=True)
     paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.amount)
