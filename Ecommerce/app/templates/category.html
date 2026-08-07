@@ -1,11 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} - Electro Electronics{% endblock %}
+
+{% block content %}
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">{{ category.name }}</h1>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-md-6 col-lg-4 col-xl-3">
+            <div class="product-item rounded position-relative">
+                <div class="product-img">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="img-fluid w-100 rounded-top" alt="{{ product.name }}">
+                    {% endif %}
+                </div>
+                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                    <h4>{{ product.name }}</h4>
+                    <p>{{ product.description|truncatewords:10 }}</p>
+                    <div class="d-flex justify-content-between flex-lg-wrap">
+                        <p class="text-dark fs-5 fw-bold mb-0">₹{{ product.price }}</p>
+                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <h3>No products found in this category.</h3>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
