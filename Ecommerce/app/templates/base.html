@@ -137,24 +137,18 @@
             <div class="col-md-4 col-lg-3 text-center text-lg-end">
                 <div class="d-inline-flex align-items-center">
                     <a href="{% url 'wishlist' %}"
-                        class="text-muted d-flex align-items-center justify-content-center me-3 position-relative">
+                        class="text-white d-flex align-items-center justify-content-center me-4 position-relative" title="Wishlist">
                         <span
-                            class="rounded-circle btn-md-square border d-flex align-items-center justify-content-center"><i
+                            class="rounded-circle btn-md-square border border-secondary d-flex align-items-center justify-content-center text-secondary" style="width: 45px; height: 45px; font-size: 18px;"><i
                                 class="fas fa-heart"></i></span>
-                        {% if wishlist_count %}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{
-                            wishlist_count }}</span>
-                        {% endif %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary text-white fw-bold" style="font-size: 12px; padding: 4px 8px; box-shadow: 0 0 10px rgba(217, 70, 239, 0.7);">{{ wishlist_count|default:0 }}</span>
                     </a>
                     <a href="{% url 'cart' %}"
-                        class="text-muted d-flex align-items-center justify-content-center position-relative">
+                        class="text-white d-flex align-items-center justify-content-center position-relative ms-2" title="Shopping Cart">
                         <span
-                            class="rounded-circle btn-md-square border d-flex align-items-center justify-content-center"><i
+                            class="rounded-circle btn-md-square border border-primary d-flex align-items-center justify-content-center text-primary" style="width: 45px; height: 45px; font-size: 18px;"><i
                                 class="fas fa-shopping-cart"></i></span>
-                        {% if cart_count %}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{
-                            cart_count }}</span>
-                        {% endif %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary text-dark fw-bold" style="font-size: 12px; padding: 4px 8px; box-shadow: 0 0 12px rgba(0, 240, 255, 0.8);">{{ cart_count|default:0 }}</span>
                     </a>
                 </div>
             </div>
@@ -206,7 +200,8 @@
                             <a href="{% url 'single' %}"
                                 class="nav-item nav-link {% block nav_single %}{% endblock %}">Single Page</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" id="pagesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle" id="pagesDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
                                 <div class="dropdown-menu m-0" aria-labelledby="pagesDropdown">
                                     <a href="{% url 'bestseller' %}" class="dropdown-item">Bestseller</a>
                                     <a href="{% url 'cart' %}" class="dropdown-item">Cart Page</a>

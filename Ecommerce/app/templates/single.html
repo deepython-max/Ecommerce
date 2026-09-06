@@ -128,13 +128,20 @@
             </div>
             <div class="col-md-4 col-lg-3 text-center text-lg-end">
                 <div class="d-inline-flex align-items-center">
-                    <a href="#" class="text-muted d-flex align-items-center justify-content-center me-3"><span
-                            class="rounded-circle btn-md-square border"><i class="fas fa-random"></i></i></a>
-                    <a href="#" class="text-muted d-flex align-items-center justify-content-center me-3"><span
-                            class="rounded-circle btn-md-square border"><i class="fas fa-heart"></i></a>
-                    <a href="#" class="text-muted d-flex align-items-center justify-content-center"><span
-                            class="rounded-circle btn-md-square border"><i class="fas fa-shopping-cart"></i></span>
-                        <span class="text-dark ms-2">$0.00</span></a>
+                    <a href="{% url 'wishlist' %}"
+                        class="text-white d-flex align-items-center justify-content-center me-4 position-relative" title="Wishlist">
+                        <span
+                            class="rounded-circle btn-md-square border border-secondary d-flex align-items-center justify-content-center text-secondary" style="width: 45px; height: 45px; font-size: 18px;"><i
+                                class="fas fa-heart"></i></span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary text-white fw-bold" style="font-size: 12px; padding: 4px 8px; box-shadow: 0 0 10px rgba(217, 70, 239, 0.7);">{{ wishlist_count|default:0 }}</span>
+                    </a>
+                    <a href="{% url 'cart' %}"
+                        class="text-white d-flex align-items-center justify-content-center position-relative ms-2" title="Shopping Cart">
+                        <span
+                            class="rounded-circle btn-md-square border border-primary d-flex align-items-center justify-content-center text-primary" style="width: 45px; height: 45px; font-size: 18px;"><i
+                                class="fas fa-shopping-cart"></i></span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary text-dark fw-bold" style="font-size: 12px; padding: 4px 8px; box-shadow: 0 0 12px rgba(0, 240, 255, 0.8);">{{ cart_count|default:0 }}</span>
+                    </a>
                 </div>
             </div>
         </div>
